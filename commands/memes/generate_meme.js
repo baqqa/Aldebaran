@@ -1,7 +1,9 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder } = require('discord.js');
 const axios = require('axios');
-const { imgFlipUsername, imgFlipPassword } = require('../../config.json');
+const {config} = require("dotenv");
+const imgFlipUsername = process.env.imgFlipUsername;
+const imgFlipPassword = process.env.imgFlipPassword;
 
 let memeTemplatesCache = null; // Cache templates in memory
 let lastCacheTime = 0; // Store the time of last cache update
