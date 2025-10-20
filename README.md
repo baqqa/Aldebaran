@@ -1,12 +1,22 @@
-# Aldebaran
+<div align="center">
 
-Aldebaran — a modular Discord bot implemented in JavaScript.
+# 🤖 Aldebaran
 
-This README describes how to set up, run, and extend the bot and documents the command folders and commands found in the repository.
+[![GitHub license](https://img.shields.io/github/license/baqqa/Aldebaran)](https://github.com/baqqa/Aldebaran/blob/main/LICENSE)
+[![Node.js Version](https://img.shields.io/node/v/discord.js)](https://nodejs.org/)
+[![Discord.js Version](https://img.shields.io/github/package-json/dependency-version/baqqa/Aldebaran/discord.js)](https://discord.js.org/)
+[![GitHub issues](https://img.shields.io/github/issues/baqqa/Aldebaran)](https://github.com/baqqa/Aldebaran/issues)
+[![GitHub stars](https://img.shields.io/github/stars/baqqa/Aldebaran)](https://github.com/baqqa/Aldebaran/stargazers)
+
+**A powerful, modular Discord bot built with JavaScript featuring D&D utilities, music playback, memes, and more!**
+
+[Features](#-features) • [Installation](#-quick-start) • [Commands](#-commands-by-folder) • [Contributing](#-contributing)
+
+</div>
 
 ---
 
-Table of contents
+## 📋 Table of Contents
 - [Features](#features)
 - [Requirements](#requirements)
 - [Quick start](#quick-start)
@@ -21,188 +31,345 @@ Table of contents
 
 ---
 
-## Features
+## ✨ Features
 
-- Slash-command based Discord bot (discord.js).
-- Modular command structure with folders and subfolders.
-- Example D&D utilities (monster lookup, NPC generator).
-- Music playback command using yt-dlp and discord voice.
-- Meme template listing and generation utilities.
-- Utility commands (help, fun facts, etc.).
+- 🎯 **Slash Commands** - Modern Discord slash command interface powered by discord.js
+- 📁 **Modular Architecture** - Clean folder structure for easy command organization
+- 🐉 **D&D Utilities** - Monster lookups, NPC generators, and spell references
+- 🎵 **Music Playback** - Stream music from YouTube with queue support
+- 😂 **Meme Generation** - Create memes with built-in templates
+- 🛠️ **Utility Commands** - Helpful tools like fun facts, server info, and more
+- ⚡ **Performance** - Efficient command loading with cooldown management
 
-## Requirements
+## 📋 Requirements
 
-- Node.js (recommend latest LTS; tested with Node 16+ / 18+).
-- npm or yarn.
-- A Discord application and bot token.
-- For music playback: yt-dlp (or youtube-dl replacement), ffmpeg (or ffmpeg-static).
-- Internet access for external APIs used by some commands.
+Before running Aldebaran, ensure you have the following installed:
 
-## Quick start
+| Requirement | Version | Purpose |
+|-------------|---------|---------|
+| 📦 **Node.js** | 16+ (LTS recommended) | Runtime environment |
+| 📥 **npm/yarn** | Latest | Package management |
+| 🤖 **Discord Bot Token** | - | Bot authentication |
+| 🎵 **yt-dlp** | Latest | Music streaming (optional) |
+| 🎬 **FFmpeg** | Latest | Audio processing (optional) |
+| 🌐 **Internet Access** | - | External API calls |
 
-1. Clone the repository
-   ```bash
-   git clone https://github.com/baqqa/Aldebaran.git
-   cd Aldebaran
-   ```
+## 🚀 Quick Start
 
-2. Install dependencies
-   ```bash
-   npm install
-   ```
+Get Aldebaran up and running in just a few steps:
 
-3. Add environment variables (see Configuration).
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/baqqa/Aldebaran.git
+cd Aldebaran
+```
 
-4. Register slash commands (see the "How commands are loaded & registered" section — repository includes `deploy-commands.js`).
+### 2️⃣ Install Dependencies
+```bash
+npm install
+```
 
-5. Start the bot
-   ```bash
-   npm start
-   ```
-   For development with reload tools (if you add nodemon):
-   ```bash
-   npm run dev
-   ```
-
-## Configuration
-
-Create a `.env` file in the project root with at minimum the Discord token and client id. Example:
-
+### 3️⃣ Environment Configuration
+Create a `.env` file in the root directory:
 ```env
 DISCORD_TOKEN=your-discord-bot-token
 clientId=your-application-client-id
-# Optional / common
+GUILD_ID=your-dev-guild-id          # Optional for development
+```
+
+### 4️⃣ Deploy Commands
+```bash
+node deploy-commands.js
+```
+
+### 5️⃣ Start the Bot
+```bash
+# Production
+npm start
+
+# Development (with auto-reload)
+npm run dev
+```
+
+> 🎉 **That's it!** Your bot should now be online and ready to use.
+
+## ⚙️ Configuration
+
+### Environment Variables
+
+Create a `.env` file in the project root with the following variables:
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `DISCORD_TOKEN` | ✅ | Your Discord bot token |
+| `clientId` | ✅ | Your Discord application client ID |
+| `GUILD_ID` | ❌ | Development guild ID (for faster command deployment) |
+| `MONGO_URI` | ❌ | MongoDB connection string (if using database features) |
+| `NODE_ENV` | ❌ | Environment (`development`/`production`) |
+
+### Example `.env` file:
+```env
+DISCORD_TOKEN=your-discord-bot-token
+clientId=your-application-client-id
 GUILD_ID=your-dev-guild-id
 MONGO_URI=mongodb://user:pass@host:port/dbname
 NODE_ENV=development
 ```
 
-Note: The code uses `process.env.clientId` (lowercase `clientId`) in some places — ensure variables match the names used in your code. The `deploy-commands.js` script references `config.json` for `guildIds` in the repository; you can populate that file or adapt the deploy script.
+> ⚠️ **Important:** Keep your `.env` file secure and never commit it to version control!
 
-## Commands (by folder)
+## 🎮 Commands (by folder)
 
-The project organizes commands under the `commands/` directory. Each subfolder groups related commands. Commands are implemented as modules that export a `data` (SlashCommandBuilder) and an `execute` function. Some commands also expose a `cooldown` property.
+Aldebaran organizes commands into logical folders under the `commands/` directory. Each command is a module that exports a `data` (SlashCommandBuilder) and an `execute` function, with optional `cooldown` properties.
 
-The following command folders and files were found in the repository and are documented here:
+### 🐉 D&D Commands
+<details>
+<summary>Click to expand D&D utilities</summary>
 
-- commands/
-  - dnd/
-    - monster.js
-      - Description: Print a D&D Monster Manual stat block for a monster (queries an API).
-      - Usage: `/monster name:<monster name>`
-      - Notes: Requires the monster name (in English). The command uses axios to fetch data and returns an embedded stat block.
-      - Cooldown: 5 seconds
-    - npcgen.js
-      - Description: Generate a random NPC at a given level with stats and a generated name.
-      - Usage: `/npcgen level:<1-20>`
-      - Notes: Uses a name generator module (`namegenerator`) and external data via axios to build class/race/ability values. Outputs an embedded NPC sheet (stats, modifiers, hp, proficiencies, etc.).
-      - Cooldown: 5 seconds
+#### `/monster`
+- **Description:** 📖 Fetch D&D Monster Manual stat blocks
+- **Usage:** `/monster name:<monster name>`
+- **Cooldown:** 5 seconds
+- **Features:** API-powered monster lookup with embedded stat blocks
 
-  - memes/
-    - list_memes.js
-      - Description: List available meme templates for generating memes.
-      - Usage: `/list_memes`
-      - Notes: Fetches templates via an API, caches templates for 1 hour to reduce API calls. The command returns templates (often with a paginated or interactive UI using buttons).
+#### `/npcgen`
+- **Description:** 🎭 Generate random NPCs with complete stat sheets
+- **Usage:** `/npcgen level:<1-20>`
+- **Cooldown:** 5 seconds
+- **Features:** Random names, classes, races, and ability scores
 
-  - music/
-    - play.js
-      - Description: Play a song or playlist in your voice channel (supports YouTube links and search queries).
-      - Usage: `/play query:<song name | youtube url | playlist url>`
-      - Notes:
-        - If you pass a playlist URL (YouTube playlist), the command tries to expand it and queue items.
-        - Requires bot to join voice channel; checks for CONNECT and SPEAK permissions.
-        - Uses `yt-dlp` (spawned as a process) to fetch stream info and then plays audio via @discordjs/voice.
-        - Ensure `yt-dlp` (or equivalent) and `ffmpeg` are available on the host.
-      - Typical interaction flow:
-        - User runs `/play` with query.
-        - Bot defers reply and attempts to resolve the query to one or more streamable URLs.
-        - Bot joins the user's voice channel and plays audio using an audio player and resources.
-      - The bot stores a per-server queue in memory (a Map in the command module).
+</details>
 
-  - utility/
-    - funFact.js
-      - Description: Returns a random fun fact.
-      - Usage: `/funfact`
-      - Notes: Uses axios to call an external API and returns an embedded response.
-      - Cooldown: 5 seconds
-    - help.js
-      - Description: Show a help embed listing supported commands and short usage examples (content includes Italian text for descriptions).
-      - Usage: `/help`
-      - Notes: The help embed includes commands such as `/monster`, `/npcgen`, `/play`, `/funFact`, `/roll`, `/spell`, `/generate_meme`, and explains a bit about each (some descriptions are in Italian).
+### 😂 Meme Commands
+<details>
+<summary>Click to expand meme utilities</summary>
 
-If you add new commands:
-- Each command module should export `data` (builder) and `execute`.
-- Optionally include `cooldown`.
-- For slash commands, `data` is transformed with `.toJSON()` when registering.
+#### `/list_memes`
+- **Description:** 📋 Browse available meme templates
+- **Usage:** `/list_memes`
+- **Features:** 1-hour caching, interactive pagination
 
-## How commands are loaded & registered
+#### `/generate_meme`
+- **Description:** 🖼️ Create custom memes
+- **Usage:** `/generate_meme template:<template> text:<your text>`
+- **Features:** Multiple templates, custom text overlay
 
-- index.js bootstraps the client, reads the `commands` folder, and loads each command. It expects each command module to contain `data` and `execute`. The command is added to `client.commands` with `client.commands.set(command.data.name, command)`.
-- `deploy-commands.js` iterates the same command folders to build an array of command JSON objects and uses the Discord REST API via discord.js REST to register them. The script references `guildIds` from `config.json` for guild command registration and reads the token and client id from environment variables.
+</details>
 
-To register commands locally (development / guild registration):
-- Ensure `DISCORD_TOKEN` and `clientId` are set.
-- Run:
-  ```bash
-  node deploy-commands.js
-  ```
-  (Adjust the script if you need global registration or different scoping. Guild-level registration updates instantly; global commands can take up to an hour to propagate.)
+### 🎵 Music Commands
+<details>
+<summary>Click to expand music features</summary>
 
-## Voice & media notes
+#### `/play`
+- **Description:** 🎶 Stream music from YouTube
+- **Usage:** `/play query:<song name | youtube url | playlist url>`
+- **Features:** 
+  - YouTube search and direct URLs
+  - Playlist support with queue expansion
+  - Voice channel management
+  - High-quality audio streaming via yt-dlp
+- **Requirements:** Bot needs CONNECT and SPEAK permissions
 
-- The play command uses external binaries/processes (yt-dlp) to fetch and parse YouTube content and ffmpeg to transcode audio. Make sure:
-  - `yt-dlp` is installed and accessible in PATH, or adapt the command to a library wrapper.
-  - `ffmpeg` is available (you can use system ffmpeg or include `ffmpeg-static`).
-- The bot requests the following intents in code: Guilds, GuildVoiceStates, GuildMessages. Make sure the bot's OAuth invite and Developer Portal settings include required intents and scopes (bot, applications.commands).
+</details>
 
-## Development tips
+### 🛠️ Utility Commands
+<details>
+<summary>Click to expand utility features</summary>
 
-- Use a test guild (GUILD_ID) to register commands quickly during development.
-- Use `console.log` inside command modules and event handlers to debug.
-- Keep long-running or blocking operations out of the main `execute` function where possible — use async/await and defer replies on interactions for requests that need more time.
-- The music queue is ephemeral (in-memory). For persistence across restarts, implement a storage layer.
+#### `/funfact`
+- **Description:** 🧠 Get random interesting facts
+- **Usage:** `/funfact`
+- **Cooldown:** 5 seconds
 
-## Troubleshooting
+#### `/help`
+- **Description:** ℹ️ Display available commands
+- **Usage:** `/help`
+- **Features:** Comprehensive command overview
 
-- Bot won't start:
-  - Verify `DISCORD_TOKEN` is valid and present in `.env`.
-  - Confirm node_modules are installed.
-- Slash commands not visible:
-  - If registered globally, wait up to an hour; for immediate results, register in a dev guild.
-  - Check `deploy-commands.js` and `config.json` for `guildIds`.
-- Music playback errors:
-  - Ensure `yt-dlp` and `ffmpeg` exist and are in PATH.
-  - Confirm the bot has permission to join and speak in the target voice channel.
-- API calls failing:
-  - Check outbound network connectivity from the host and any API key / rate limits.
+#### `/ping`
+- **Description:** 🏓 Check bot latency
+- **Usage:** `/ping`
 
-## Contributing
+#### `/server`
+- **Description:** 🏠 Display server information
+- **Usage:** `/server`
 
-Contributions are welcome.
+#### `/user`
+- **Description:** 👤 Show user profile
+- **Usage:** `/user [target_user]`
 
-Suggested workflow:
-1. Fork the repository.
-2. Create a feature branch: `git checkout -b feat/your-feature`.
-3. Add or modify commands following the existing pattern (export `data` and `execute`).
-4. Run and test in a dev guild.
-5. Open a pull request back to `baqqa/Aldebaran` with a clear description of the change.
+</details>
 
-When adding commands:
-- Add unit or integration tests where applicable.
-- Keep sensitive keys out of source control — use `.env` or secrets managers.
+### 📝 Adding New Commands
 
-## Security & best practices
+When creating new commands, follow this structure:
 
-- Never commit tokens or `.env` files.
-- Limit admin-only commands to the bot owner or trusted roles.
-- Rotate tokens if you suspect a leak.
+```javascript
+const { SlashCommandBuilder } = require('discord.js');
 
-## License & Contact
+module.exports = {
+    data: new SlashCommandBuilder()
+        .setName('commandname')
+        .setDescription('Command description'),
+    cooldown: 5, // Optional: seconds between uses
+    async execute(interaction) {
+        // Your command logic here
+    },
+};
+```
 
-Maintainer: baqqa  
-Repository: https://github.com/baqqa/Aldebaran
+## 🔧 How Commands Work
 
-License: MIT
+### Command Loading Process
+1. **Bootstrap** - `index.js` reads the `commands/` folder recursively
+2. **Registration** - Each command exports `data` and `execute` functions  
+3. **Storage** - Commands are stored in `client.commands` collection
+4. **Deployment** - `deploy-commands.js` registers commands with Discord API
+
+### Command Registration
+```bash
+# Guild-specific (instant updates)
+node deploy-commands.js
+
+# Global commands (up to 1 hour to propagate)
+# Modify deploy-commands.js for global registration
+```
+
+## 🎵 Voice & Media Setup
+
+### Music Playback Requirements
+
+The music functionality requires additional setup:
+
+| Component | Purpose | Installation |
+|-----------|---------|--------------|
+| 🎵 **yt-dlp** | YouTube content extraction | `pip install yt-dlp` |
+| 🎬 **FFmpeg** | Audio transcoding | [Download FFmpeg](https://ffmpeg.org/download.html) |
+
+### Discord Bot Permissions
+
+Ensure your bot has these intents enabled in the Discord Developer Portal:
+
+- ✅ **Guilds** - Basic server operations
+- ✅ **Guild Voice States** - Voice channel management  
+- ✅ **Guild Messages** - Message handling (if needed)
+
+### Required Bot Permissions
+- `CONNECT` - Join voice channels
+- `SPEAK` - Play audio in voice channels
+- `USE_SLASH_COMMANDS` - Execute slash commands
+
+## 💡 Development Tips
+
+### Best Practices
+- 🧪 **Testing** - Use a test guild (`GUILD_ID`) for instant command deployment
+- 🐛 **Debugging** - Add `console.log` statements in command modules and event handlers
+- ⚡ **Performance** - Keep long-running operations async and defer interaction replies
+- 💾 **Persistence** - Music queues are in-memory; implement storage for cross-restart persistence
+
+### Code Structure
+```
+Aldebaran/
+├── commands/           # Slash commands organized by category
+│   ├── dnd/           # D&D utilities
+│   ├── memes/         # Meme generation
+│   ├── music/         # Audio playback
+│   └── utility/       # General utilities
+├── events/            # Discord.js event handlers
+├── deploy-commands.js # Command registration script
+└── index.js          # Main bot entry point
+```
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+<details>
+<summary>🚫 Bot Won't Start</summary>
+
+- ✅ Verify `DISCORD_TOKEN` is valid and present in `.env`
+- ✅ Confirm `node_modules` are installed (`npm install`)
+- ✅ Check Node.js version (requires 16+)
+- ✅ Ensure all required environment variables are set
+
+</details>
+
+<details>
+<summary>👻 Slash Commands Not Visible</summary>
+
+- ✅ Run command deployment: `node deploy-commands.js`
+- ✅ For global commands, wait up to 1 hour for propagation
+- ✅ Use guild registration for instant updates during development
+- ✅ Verify bot has `applications.commands` scope
+
+</details>
+
+<details>
+<summary>🎵 Music Playback Issues</summary>
+
+- ✅ Install `yt-dlp`: `pip install yt-dlp`
+- ✅ Ensure `ffmpeg` is in your system PATH
+- ✅ Check bot has `CONNECT` and `SPEAK` permissions
+- ✅ Verify user is in a voice channel before using `/play`
+
+</details>
+
+<details>
+<summary>🌐 API Call Failures</summary>
+
+- ✅ Check internet connectivity
+- ✅ Verify API endpoints are accessible
+- ✅ Review rate limits and API quotas
+- ✅ Check firewall settings
+
+</details>
+
+## 🤝 Contributing
+
+We welcome contributions from the community! Here's how to get involved:
+
+### 🔄 Contribution Workflow
+
+1. **🍴 Fork** the repository
+2. **🌿 Create** a feature branch: `git checkout -b feat/your-feature`
+3. **🛠️ Develop** following the existing patterns
+4. **🧪 Test** in a development guild
+5. **📬 Submit** a pull request with a clear description
+
+### 📋 Contribution Guidelines
+
+- ✅ Export `data` and `execute` functions for new commands
+- ✅ Add appropriate cooldowns where necessary
+- ✅ Include unit tests when applicable
+- ✅ Keep sensitive information in environment variables
+- ✅ Follow existing code style and structure
+- ✅ Update documentation for new features
+
+### 🛡️ Security Best Practices
+
+- 🔒 **Never commit** `.env` files or tokens to version control
+- 🔑 **Rotate tokens** immediately if compromised
+- 👥 **Limit admin commands** to authorized users only
+- 🛡️ **Validate inputs** to prevent injection attacks
+- 📝 **Review dependencies** regularly for security updates
 
 ---
+
+## 📄 License & Contact
+
+<div align="center">
+
+**Maintainer:** [baqqa](https://github.com/baqqa)  
+**Repository:** [github.com/baqqa/Aldebaran](https://github.com/baqqa/Aldebaran)  
+**License:** MIT
+
+### 💬 Get Help
+
+[![Issues](https://img.shields.io/badge/GitHub-Issues-red?style=for-the-badge&logo=github&logoColor=white)](https://github.com/baqqa/Aldebaran/issues)
+
+---
+
+⭐ **Star this repository if you found it helpful!** ⭐
+
+</div>
 
