@@ -1,6 +1,10 @@
 <div align="center">
-
-# 🤖 Aldebaran
+<p align="center">
+  <img src="/aldebaran logo.png" alt="Aldebaran Logo" width="200"/>
+</p>
+<h1>
+Aldebaran
+</h1>
 
 [![GitHub license](https://img.shields.io/github/license/baqqa/Aldebaran)](https://github.com/baqqa/Aldebaran/blob/main/LICENSE)
 [![Node.js Version](https://img.shields.io/node/v/discord.js)](https://nodejs.org/)
@@ -29,7 +33,9 @@
 - [Contributing](#contributing)
 - [License & Contact](#license--contact)
 
----
+<p align="center">
+  <img src="https://raw.githubusercontent.com/baqqa/Aldebaran/refs/heads/main/banner.png" alt="Aldebaran Banner" width="100%">
+</p>
 
 ## ✨ Features
 
