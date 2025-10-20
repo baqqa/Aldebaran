@@ -202,10 +202,7 @@ When adding commands:
 Maintainer: baqqa  
 Repository: https://github.com/baqqa/Aldebaran
 
-License: (choose and include a license file — e.g., MIT)  
+License: MIT
 
 ---
 
-Notes about this README:
-- This README was tailored by scanning the project structure and source files in the repository. It documents the command folders and command files found (dnd, memes, music, utility) with summaries, usage, and implementation notes.
-- If you want, I can produce an `.env.example`, a Dockerfile, or a deploy script adapted to your chosen hosting provider — just indicate which one and I'll produce the file.
